@@ -24,6 +24,7 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	private $_id;
 	public $task;
 	public $file;
+	public $message;
 	
 	public function __construct(Chatwork_Client $client, int $room_id) {
 		parent::__construct($client, Chatwork_API_ChatRoom::getURI('rooms', $room_id));
@@ -52,6 +53,15 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	
 	public function getMessages(boolean $force = false) {
 		return $this->execGet('messages', array('force' => ($force) ? 1 : 0));
+	}
+	
+	public function postMessages($body) {
+		return $this->exec('messages', array('body' => $body));
+	}
+	
+	public function getMessageInformation(int $file_id, boolean $create_url = true) {
+		$this->message = new Chatwork_API_ObjectInformation($this->_client, $this->_id, $file_id, 'messages');
+		return $this->message->get();
 	}
 	
 	public function getTasks($options = array()) {
