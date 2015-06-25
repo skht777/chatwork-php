@@ -8,8 +8,8 @@ class Chatwork_Client {
 	}
 	
 	public function exec($path, $method, $content) {
-		return json_decode(file_get_contents($path, false, stream_context_create($this->createContext($method, $content))), true);
-		//return array($path, $this->createContext($method, $content));
+		//return json_decode(file_get_contents($path, false, stream_context_create($this->createContext($method, $content))), true);
+		return array($path, $this->createContext($method, $content));
 	}
 	
 	private function createContext($method, $content) {
