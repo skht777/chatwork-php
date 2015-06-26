@@ -1,7 +1,7 @@
 <?php
 class Chatwork_API_Base {
 	
-	const ENDPOINT = "https://api.chatwork.com/v1/";
+	const ENDPOINT = "https://api.chatwork.com/v1";
 	const POST = 'POST';
 	const PUT = 'PUT';
 	const DELETE = 'DELETE';
@@ -20,7 +20,7 @@ class Chatwork_API_Base {
 	
 	protected function execGet($path = null, array $query = array()) {
 		if(!empty($query)) $path = $path.'?'.http_build_query($query);
-		return $this->_client->exec(str_replace('/?', '?', Chatwork_API_Base::getURI(Chatwork_API_Base::ENDPOINT, $this->_endpoint)), 'GET', null);
+		return $this->_client->exec(Chatwork_API_Base::getURI(Chatwork_API_Base::ENDPOINT, $this->_endpoint, $path), 'GET', null);
 	}
 	
 	protected function exec($path, $method, array $contents) {
