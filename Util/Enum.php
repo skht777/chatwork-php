@@ -7,14 +7,15 @@ class Enum {
 	}
 	
 	public final static function __callStatic($label, $args) {
-        $class = get_called_class();
-        $const = constant("$class::$label");
-        return new $class($const);
-    }
-    
-    public function value() {
-    	return $this->_value;
-    }
+		$class = get_called_class();
+		$const = constant("$class::$label");
+		return new $class($const);
+	}
+	
+	public function value() {
+		return $this->_value;
+		
+	}
 	
 	protected static function setValue($value) {
 		return new Chatwork_Response_Enum($value);
