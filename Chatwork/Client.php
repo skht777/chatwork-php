@@ -1,25 +1,15 @@
 <?php
-class Chatwork_Client {
+include_once dirname(__FILE__).'/../Util/RequestBuilder.php';
+class Chatwork_Client extends RequestBuilder {
 	
-	private $token;
+	private $_token;
 	
 	public function __construct($token) {
-		$this->token = $token;
+		$this->_token = $token;
 	}
 	
-	public function exec($path, $method, $content) {
-		$path = rtrim(str_replace('/?', '?', $path), '/');
-		return json_decode(file_get_contents($path, false, stream_context_create($this->createContext($method, $content))), true);
-		//return array($path, $this->createContext($method, $content));
-	}
-	
-	private function createContext($method, $content) {
-		$header = array('X-ChatWorkToken: '.$this->token);
-		$context = array('method' => $method);
-		if($method !== 'GET') {
-			$header[] = 'Content-Type: application/x-www-form-urlencoded';
-			$context['content'] = $content;
-		}
-		return array('http' => $context + array('header' => implode("\n", $header)), 'ssl' => array('verify_peer' => false, 'verify_peer_name' => false));
+	public function request(RequestMethod $method, $path) {
+		return RequestBuilder::create($path, $method)->addHeader('X-ChatWorkToken', $this->_token)
+				->setCallback(function($result) {return ($result) ? json_decode($result, true) : array();});
 	}
 }

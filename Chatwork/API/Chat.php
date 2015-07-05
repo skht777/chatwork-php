@@ -10,7 +10,8 @@ class Chatwork_API_Chat extends Chatwork_API_Base {
 	}
 	
 	public function createChatRoom($name, $adminMembers, array $options = array()) {
-		return $this->exec('', Chatwork_API_Base::POST, array('name' => $name, 'members_admin_ids' => $adminMembers) + $options);
+		return $this->postRequest(RequestMethod::POST())
+				->setBody(array('name' => $name, 'members_admin_ids' => $adminMembers) + $options)->exec();
 	}
 	
 	public function getChatRoom($room_id) {
@@ -27,36 +28,37 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	public $message;
 	
 	public function __construct(Chatwork_Client $client, $room_id) {
-		parent::__construct($client, Chatwork_API_ChatRoom::getURI('rooms', $room_id));
+		parent::__construct($client, self::getURI('rooms', $room_id));
 		$this->_id = $room_id;
 	}
 	
 	public function deleteChatRoom($action) {
-		$this->exec('', Chatwork_API_Base::DELETE, array('action_type' => $action));
+		$this->postRequest(RequestMethod::DELETE())->setBody(array('action_type' => $action))->exec();
 	}
 
 	public function getInformation() {
-		return $this->execGet();
+		return $this->getRequest()->exec();
 	}
 
 	public function updateInformation(array $options = array()) {
-		return $this->exec('', Chatwork_API_Base::PUT, $options);
+		return $this->postRequest(RequestMethod::PUT())->setBody($options)->exec();
 	}
 	
 	public function getMembers() {
-		return $this->execGet('members');
+		return $this->getRequest('members')->exec();
 	}
 	
 	public function editMembers($adminMembers, array $options = array()) {
-		return $this->exec('members', Chatwork_API_Base::PUT, array('members_admin_ids' => $adminMembers) + $options);
+		return $this->postRequest(RequestMethod::PUT(), 'members')
+				->setBody(array('members_admin_ids' => $adminMembers) + $options)->exec();
 	}
 	
 	public function getMessages($force = false) {
-		return $this->execGet('messages', array('force' => ($force) ? 1 : 0));
+		return $this->getRequest('messages')->setQuery(array('force' => ($force) ? 1 : 0))->exec();
 	}
 	
 	public function postMessage($body) {
-		return $this->exec('messages', Chatwork_API_ChatRoom::POST, array('body' => $body));
+		return $this->postRequest(RequestMethod::POST(), 'messages')->setBody(array('body' => $body))->exec();
 	}
 	
 	public function getMessageInformation($message_id) {
@@ -65,7 +67,7 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	}
 	
 	public function getTasks($options = array()) {
-		return $this->execGet('tasks');
+		return $this->getRequest('tasks')->setQuery($options)->exec();
 	}
 	
 	public function getTaskInformation($task_id) {
@@ -76,12 +78,12 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	public function createTask($body, $tos, $limit = null) {
 		$params = array('body' => $body, 'to_ids' => $tos);
 		if($limit) $params += array('limit' => $limit);
-		return $this->exec('tasks', Chatwork_API_Base::POST, $params);
+		return $this->postRequest(RequestMethod::POST(), 'tasks')->setBody($params)->exec();
 	}
 	
 	public function getfiles($user = 0) {
 		$user = ($user != 0) ? array('account_id' => $user) : array();
-		return $this->execGet('files', $user);
+		return $this->getRequest('files')->setQuery($user)->exec();
 	}
 	
 	public function getfileInformation($file_id, $create_url = true) {
@@ -95,11 +97,11 @@ class Chatwork_API_ObjectInformation extends Chatwork_API_Base {
 	private $_id;
 	
 	public function __construct(Chatwork_Client $client, $room_id, $target_id, $type) {
-		parent::__construct($client, Chatwork_API_ObjectInformation::getURI('rooms', $room_id, $type));
+		parent::__construct($client, self::getURI('rooms', $room_id, $type, $target_id));
 		$this->_id = $target_id;
 	}
 	
 	public function get($params = array()) {
-		return $this->execGet($this->_id, $params);
+		return $this->getRequest()->setQuery($params)->exec();
 	}
 }

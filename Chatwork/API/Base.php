@@ -2,9 +2,6 @@
 class Chatwork_API_Base {
 	
 	const ENDPOINT = "https://api.chatwork.com/v1";
-	const POST = 'POST';
-	const PUT = 'PUT';
-	const DELETE = 'DELETE';
 	
 	protected $_client;
 	protected $_endpoint;
@@ -18,12 +15,11 @@ class Chatwork_API_Base {
 		return implode('/', $url);
 	}
 	
-	protected function execGet($path = null, array $query = array()) {
-		if(!empty($query)) $path = $path.'?'.http_build_query($query);
-		return $this->_client->exec(Chatwork_API_Base::getURI(Chatwork_API_Base::ENDPOINT, $this->_endpoint, $path), 'GET', null);
+	protected function getRequest($path = '') {
+		return $this->_client->request(RequestMethod::GET(), $this->getURI(self::ENDPOINT, $this->_endpoint, $path));
 	}
 	
-	protected function exec($path, $method, array $contents) {
-		return $this->_client->exec(Chatwork_API_Base::getURI(Chatwork_API_Base::ENDPOINT, $this->_endpoint, $path), $method, http_build_query($contents));
+	protected function postRequest(RequestMethod $method, $path = '') {
+		return $this->_client->request($method, $this->getURI(self::ENDPOINT, $this->_endpoint, $path));
 	}
 }

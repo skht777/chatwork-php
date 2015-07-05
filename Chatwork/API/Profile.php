@@ -14,7 +14,7 @@ class Chatwork_API_Profile extends Chatwork_API_Base {
 	}
 	
 	public function getProfile() {
-		return $this->execGet();
+		return $this->getRequest()->exec();
 	}
 	
 	public function getContacts() {
@@ -33,11 +33,11 @@ class Chatwork_API_UserInformation extends Chatwork_API_Base {
 	}
 	
 	public function getStatus() {
-		return $this->execGet('status');
+		return $this->getRequest('status')->exec();
 	}
 	
 	public function getTasks(array $options = array()) { // デフォルトでは全ての未完了のタスク
-		return $this->execGet('tasks', $options);
+		return $this->getRequest('tasks')->setQuery($options)->exec();
 	}
 }
 
@@ -48,7 +48,7 @@ class Chatwork_API_UserContact extends Chatwork_API_Base {
 	}
 	
 	public function get() {
-		return $this->execGet();
+		return $this->getRequest()->exec();
 	}
 }
 
@@ -59,6 +59,6 @@ class Catwork_API_UserBelong extends Chatwork_API_Base {
 	}
 	
 	public function getParticipatedChat() {
-		return $this->execGet();
+		return $this->getRequest()->exec();
 	}
 }
