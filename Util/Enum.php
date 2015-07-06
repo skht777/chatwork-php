@@ -17,8 +17,8 @@ class Enum {
 		
 	}
 	
-	protected static function setValue($value) {
-		return new Chatwork_Response_Enum($value);
+	function equals($value) {
+		$this->_value === $value;
 	}
 	
 	function __toString() {
