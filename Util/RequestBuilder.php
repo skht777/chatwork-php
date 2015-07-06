@@ -68,7 +68,7 @@ class BuildRequest {
 				'http' => array('method' => $method->value()),
 				'ssl' => array('verify_peer' => false, 'verify_peer_name' => false)
 		);
-		if($method->value() !== RequestMethod::GET) {
+		if(!$method->equals(RequestMethod::GET)) {
 			$this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
 			$context['http']['content'] = http_build_query($contents);
 		}
