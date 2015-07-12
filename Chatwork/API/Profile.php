@@ -22,7 +22,7 @@ class Chatwork_API_Profile extends Chatwork_API_Base {
 	}
 	
 	public function getParticipatedChats() {
-		return $this->_belongs->getParticipatedChat();
+		return $this->_belongs->get();
 	}
 }
 
@@ -58,7 +58,7 @@ class Catwork_API_UserBelong extends Chatwork_API_Base {
 		parent::__construct($client, 'rooms');
 	}
 	
-	public function getParticipatedChat() {
+	public function get() {
 		return $this->getRequest()->exec();
 	}
 }

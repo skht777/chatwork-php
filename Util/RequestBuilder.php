@@ -1,8 +1,8 @@
 <?php
-include_once dirname(__FILE__).'/RequestMethod.php';
+include_once dirname(__FILE__).'/../Util/RequestMethod.php';
 class RequestBuilder {
 	
-	protected function create($path, RequestMethod $method) {
+	public function create($path, RequestMethod $method) {
 		return new BuildRequest($path, $method);
 	}
 }

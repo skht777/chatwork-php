@@ -1,6 +1,5 @@
 <?php
 include_once dirname(__FILE__)."/Base.php";
-
 class Chatwork_API_Chat extends Chatwork_API_Base {
 	
 	public $room;
@@ -15,7 +14,7 @@ class Chatwork_API_Chat extends Chatwork_API_Base {
 	}
 	
 	public function getChatRoom($room_id) {
-		$this->room = new Chatwork_API_Chatroom($this->_client, $room_id);
+		$this->room = new Chatwork_API_Chatroom($this, $room_id);
 		return $this->room;
 	}
 }
@@ -62,7 +61,7 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	}
 	
 	public function getMessageInformation($message_id) {
-		$this->message = new Chatwork_API_ObjectInformation($this->_client, $this->_id, $message_id, 'messages');
+		$this->message = new Chatwork_API_ObjectInformation($this, $this->_id, $message_id, 'messages');
 		return $this->message->get();
 	}
 	
@@ -71,7 +70,7 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	}
 	
 	public function getTaskInformation($task_id) {
-		$this->task = new Chatwork_API_ObjectInformation($this->_client, $this->_id, $task_id, 'tasks');
+		$this->task = new Chatwork_API_ObjectInformation($this, $this->_id, $task_id, 'tasks');
 		return $this->task->get();
 	}
 	
@@ -87,7 +86,7 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	}
 	
 	public function getfileInformation($file_id, $create_url = true) {
-		$this->file = new Chatwork_API_ObjectInformation($this->_client, $this->_id, $file_id, 'files');
+		$this->file = new Chatwork_API_ObjectInformation($this, $this->_id, $file_id, 'files');
 		return $this->file->get(array('create_download_url' => ($create_url) ? 1 : 0));
 	}
 }
