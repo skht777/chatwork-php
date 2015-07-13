@@ -1,6 +1,9 @@
 <?php
+namespace skht777\Chatwork;
+use skht777\Util\RequestBuilder as Request;
+use skht777\Util\RequestMethod as Method;
 include_once dirname(__FILE__).'/../Util/RequestBuilder.php';
-class Chatwork_Client {
+class Client {
 	
 	private $_token;
 	
@@ -12,8 +15,8 @@ class Chatwork_Client {
 		return $this->_token;
 	}
 	
-	protected function request(RequestMethod $method, $path) {
-		return RequestBuilder::create($path, $method)->addHeader('X-ChatWorkToken', $this->_token)
+	protected function request(Method $method, $path) {
+		return Request::create($path, $method)->addHeader('X-ChatWorkToken', $this->_token)
 				->setCallback(function($result) {return ($result) ? json_decode($result, true) : array();});
 	}
 }

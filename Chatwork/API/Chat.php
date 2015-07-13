@@ -1,38 +1,42 @@
 <?php
+namespace skht777\Chatwork\API;
+use skht777\Chatwork\Client;
+use skht777\Chatwork\API\Base as APIBase;
+use skht777\Util\RequestMethod as Method;
 include_once dirname(__FILE__)."/Base.php";
-class Chatwork_API_Chat extends Chatwork_API_Base {
+class Chat extends APIBase {
 	
 	public $room;
 	
-	public function __construct(Chatwork_Client $client) {
+	public function __construct(Client $client) {
 		parent::__construct($client, 'rooms');
 	}
 	
 	public function createChatRoom($name, $adminMembers, array $options = array()) {
-		return $this->postRequest(RequestMethod::POST())
+		return $this->postRequest(Method::POST())
 				->setBody(array('name' => $name, 'members_admin_ids' => $adminMembers) + $options)->exec();
 	}
 	
 	public function getChatRoom($room_id) {
-		$this->room = new Chatwork_API_Chatroom($this, $room_id);
+		$this->room = new Chatroom($this, $room_id);
 		return $this->room;
 	}
 }
 
-class Chatwork_API_ChatRoom extends Chatwork_API_Base {
+class ChatRoom extends APIBase {
 
 	private $_id;
 	public $task;
 	public $file;
 	public $message;
 	
-	public function __construct(Chatwork_Client $client, $room_id) {
+	public function __construct(Client $client, $room_id) {
 		parent::__construct($client, self::getURI('rooms', $room_id));
 		$this->_id = $room_id;
 	}
 	
 	public function deleteChatRoom($action) {
-		$this->postRequest(RequestMethod::DELETE())->setBody(array('action_type' => $action))->exec();
+		$this->postRequest(Method::DELETE())->setBody(array('action_type' => $action))->exec();
 	}
 
 	public function getInformation() {
@@ -40,7 +44,7 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	}
 
 	public function updateInformation(array $options = array()) {
-		return $this->postRequest(RequestMethod::PUT())->setBody($options)->exec();
+		return $this->postRequest(Method::PUT())->setBody($options)->exec();
 	}
 	
 	public function getMembers() {
@@ -48,7 +52,7 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	}
 	
 	public function editMembers($adminMembers, array $options = array()) {
-		return $this->postRequest(RequestMethod::PUT(), 'members')
+		return $this->postRequest(Method::PUT(), 'members')
 				->setBody(array('members_admin_ids' => $adminMembers) + $options)->exec();
 	}
 	
@@ -57,11 +61,11 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	}
 	
 	public function postMessage($body) {
-		return $this->postRequest(RequestMethod::POST(), 'messages')->setBody(array('body' => $body))->exec();
+		return $this->postRequest(Method::POST(), 'messages')->setBody(array('body' => $body))->exec();
 	}
 	
 	public function getMessageInformation($message_id) {
-		$this->message = new Chatwork_API_ObjectInformation($this, $this->_id, $message_id, 'messages');
+		$this->message = new ObjectInformation($this, $this->_id, $message_id, 'messages');
 		return $this->message->get();
 	}
 	
@@ -70,14 +74,14 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	}
 	
 	public function getTaskInformation($task_id) {
-		$this->task = new Chatwork_API_ObjectInformation($this, $this->_id, $task_id, 'tasks');
+		$this->task = new ObjectInformation($this, $this->_id, $task_id, 'tasks');
 		return $this->task->get();
 	}
 	
 	public function createTask($body, $tos, $limit = null) {
 		$params = array('body' => $body, 'to_ids' => $tos);
 		if($limit) $params += array('limit' => $limit);
-		return $this->postRequest(RequestMethod::POST(), 'tasks')->setBody($params)->exec();
+		return $this->postRequest(Method::POST(), 'tasks')->setBody($params)->exec();
 	}
 	
 	public function getfiles($user = 0) {
@@ -86,16 +90,16 @@ class Chatwork_API_ChatRoom extends Chatwork_API_Base {
 	}
 	
 	public function getfileInformation($file_id, $create_url = true) {
-		$this->file = new Chatwork_API_ObjectInformation($this, $this->_id, $file_id, 'files');
+		$this->file = new ObjectInformation($this, $this->_id, $file_id, 'files');
 		return $this->file->get(array('create_download_url' => ($create_url) ? 1 : 0));
 	}
 }
 
-class Chatwork_API_ObjectInformation extends Chatwork_API_Base {
+class ObjectInformation extends APIBase {
 	
 	private $_id;
 	
-	public function __construct(Chatwork_Client $client, $room_id, $target_id, $type) {
+	public function __construct(Client $client, $room_id, $target_id, $type) {
 		parent::__construct($client, self::getURI('rooms', $room_id, $type, $target_id));
 		$this->_id = $target_id;
 	}
