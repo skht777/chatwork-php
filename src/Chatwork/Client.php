@@ -1,8 +1,7 @@
 <?php
-namespace skht777\Chatwork;
-use skht777\Util\RequestBuilder as Request;
-use skht777\Util\RequestMethod as Method;
-include_once dirname(__FILE__).'/../Util/RequestBuilder.php';
+namespace Skht777\Chatwork;
+use Skht777\Util\BuildRequest as Request;
+use Skht777\Util\RequestMethod as Method;
 class Client {
 	
 	private $_token;

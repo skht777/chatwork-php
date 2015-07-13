@@ -1,8 +1,8 @@
 <?php
-namespace skht777\Chatwork\API;
-use skht777\Chatwork\Client;
-use skht777\Chatwork\API\Base as APIBase;
-use skht777\Util\RequestMethod as Method;
+namespace Skht777\Chatwork\API;
+use Skht777\Chatwork\Client;
+use Skht777\Chatwork\API\Base as APIBase;
+use Skht777\Util\RequestMethod as Method;
 include_once dirname(__FILE__)."/Base.php";
 class Chat extends APIBase {
 	

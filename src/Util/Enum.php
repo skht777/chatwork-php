@@ -1,5 +1,5 @@
 <?php
-namespace skht777\Util;
+namespace Skht777\Util;
 class Enum {
 	private $_value;
 	

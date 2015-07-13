@@ -1,7 +1,7 @@
 <?php
-namespace skht777\Chatwork\API;
-use skht777\Chatwork\Client;
-use skht777\Chatwork\API\Base as APIBase;
+namespace Skht777\Chatwork\API;
+use Skht777\Chatwork\Client;
+use Skht777\Chatwork\API\Base as APIBase;
 include_once dirname(__FILE__).'/Base.php';
 class Profile extends APIBase {
 	

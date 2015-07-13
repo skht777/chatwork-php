@@ -1,7 +1,7 @@
 <?php
-namespace skht777\Chatwork\API;
-use skht777\Chatwork\Client;
-use skht777\Util\RequestMethod as Method;
+namespace Skht777\Chatwork\API;
+use Skht777\Chatwork\Client;
+use Skht777\Util\RequestMethod as Method;
 class Base extends Client {
 	
 	const ENDPOINT = "https://api.chatwork.com/v1";

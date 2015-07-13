@@ -1,7 +1,6 @@
 <?php
-namespace skht777\Util;
-use skht777\Util\RequestMethod as Method;
-include_once dirname(__FILE__).'/../Util/RequestMethod.php';
+namespace Skht777\Util;
+use Skht777\Util\RequestMethod as Method;
 class BuildRequest {
 	
 	private $_path;

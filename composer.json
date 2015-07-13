@@ -1,0 +1,20 @@
+{
+	"name": "skht777/chatwork-php",
+	"description": "Chatwork api wrapper",
+	"keywords": ["chatwork","api"],
+	"homepage": "https://github.com/skht777/chatwork-php",
+	"license": "GPL-3.0",
+	"authors": [
+		{
+			"name": "skht777",
+			"email": "skht77@gmail.com",
+			"homepage": "https://github.com/skht777"
+		}
+	],
+	"repositories": [{
+		"packagist": false
+	}],
+	"autoload": {
+		"psr-4": {"Skht777\\": "src/"}
+	}
+}
