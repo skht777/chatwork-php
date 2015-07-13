@@ -1,12 +1,6 @@
 <?php
-include_once dirname(__FILE__).'/RequestMethod.php';
-class RequestBuilder {
-	
-	protected function create($path, RequestMethod $method) {
-		return new BuildRequest($path, $method);
-	}
-}
-
+namespace Skht777\Util;
+use Skht777\Util\RequestMethod as Method;
 class BuildRequest {
 	
 	private $_path;
@@ -16,7 +10,7 @@ class BuildRequest {
 	private $_content;
 	private $_callback;
 	
-	public function __construct($path, $method) {
+	private function __construct($path, $method) {
 		$this->_path = $path;
 		$this->_method = $method;
 		$this->_query = array();
@@ -24,10 +18,14 @@ class BuildRequest {
 		$this->_content = array();
 	}
 	
+	public function create($path, Method $method) {
+		return new BuildRequest($path, $method);
+	}
+	
 	public function exec() {
 		$result = file_get_contents($this->getPath(), false, stream_context_create($this->getContext()));
 		return ($this->_callback) ? call_user_func($this->_callback, $result) : $result;
-		//return array($this->getPath(), $this->getContext());
+		//return array($this->getPath(), $this->getContext()); // プレフィックスチェック用
 	}
 	
 	public function addHeader($name, $value) {
@@ -68,7 +66,7 @@ class BuildRequest {
 				'http' => array('method' => $method->value()),
 				'ssl' => array('verify_peer' => false, 'verify_peer_name' => false)
 		);
-		if(!$method->equals(RequestMethod::GET)) {
+		if(!$method->equals(Method::GET)) {
 			$this->addHeader('Content-Type', 'application/x-www-form-urlencoded');
 			$context['http']['content'] = http_build_query($contents);
 		}

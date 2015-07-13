@@ -1,16 +1,19 @@
 <?php
+namespace Skht777\Chatwork\API;
+use Skht777\Chatwork\Client;
+use Skht777\Chatwork\API\Base as APIBase;
 include_once dirname(__FILE__).'/Base.php';
-class Chatwork_API_Profile extends Chatwork_API_Base {
+class Profile extends APIBase {
 	
 	public $information;
 	private $_contacts;
 	private $_belongs;
 	
-	public function __construct(Chatwork_Client $client) {
+	public function __construct(Client $client) {
 		parent::__construct($client, 'me');
-		$this->information = new Chatwork_API_UserInformation($client);
-		$this->_contacts = new Chatwork_API_UserContact($client);
-		$this->_belongs = new Catwork_API_UserBelong($client);
+		$this->information = new UserInformation($client);
+		$this->_contacts = new UserContact($client);
+		$this->_belongs = new UserBelong($client);
 	}
 	
 	public function getProfile() {
@@ -22,13 +25,13 @@ class Chatwork_API_Profile extends Chatwork_API_Base {
 	}
 	
 	public function getParticipatedChats() {
-		return $this->_belongs->getParticipatedChat();
+		return $this->_belongs->get();
 	}
 }
 
-class Chatwork_API_UserInformation extends Chatwork_API_Base {
+class UserInformation extends Base {
 	
-	public function __construct(Chatwork_Client $client) {
+	public function __construct(Client $client) {
 		parent::__construct($client, 'my');
 	}
 	
@@ -41,9 +44,9 @@ class Chatwork_API_UserInformation extends Chatwork_API_Base {
 	}
 }
 
-class Chatwork_API_UserContact extends Chatwork_API_Base {
+class UserContact extends Base {
 	
-	public function __construct(Chatwork_Client $client) {
+	public function __construct(Client $client) {
 		parent::__construct($client, 'contacts');
 	}
 	
@@ -52,13 +55,13 @@ class Chatwork_API_UserContact extends Chatwork_API_Base {
 	}
 }
 
-class Catwork_API_UserBelong extends Chatwork_API_Base {
+class UserBelong extends Base {
 	
-	public function __construct(Chatwork_Client $client) {
+	public function __construct(Client $client) {
 		parent::__construct($client, 'rooms');
 	}
 	
-	public function getParticipatedChat() {
+	public function get() {
 		return $this->getRequest()->exec();
 	}
 }
