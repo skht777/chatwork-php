@@ -2,13 +2,6 @@
 namespace skht777\Util;
 use skht777\Util\RequestMethod as Method;
 include_once dirname(__FILE__).'/../Util/RequestMethod.php';
-class RequestBuilder {
-	
-	public function create($path, Method $method) {
-		return new BuildRequest($path, $method);
-	}
-}
-
 class BuildRequest {
 	
 	private $_path;
@@ -18,12 +11,16 @@ class BuildRequest {
 	private $_content;
 	private $_callback;
 	
-	public function __construct($path, $method) {
+	private function __construct($path, $method) {
 		$this->_path = $path;
 		$this->_method = $method;
 		$this->_query = array();
 		$this->_header = array();
 		$this->_content = array();
+	}
+	
+	public function create($path, Method $method) {
+		return new BuildRequest($path, $method);
 	}
 	
 	public function exec() {
