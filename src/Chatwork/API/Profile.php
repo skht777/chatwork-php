@@ -4,15 +4,15 @@ use Skht777\Chatwork\Client;
 use Skht777\Chatwork\API\Base as APIBase;
 class Profile extends APIBase {
 	
-	public $information;
+	private $_information;
 	private $_contacts;
 	private $_belongs;
 	
-	protected function __construct(Client $client) {
+	public function __construct(Client $client) {
 		parent::__construct($client, 'me');
-		$this->information = new UserInformation($client);
-		$this->_contacts = new UserContact($client);
-		$this->_belongs = new UserBelong($client);
+		$this->_information = new UserInformation($client, 'my');
+		$this->_contacts = new UserContact($client, 'contacts');
+		$this->_belongs = new UserBelong($client, 'rooms');
 	}
 	
 	public function getProfile() {
@@ -26,39 +26,35 @@ class Profile extends APIBase {
 	public function getParticipatedChats() {
 		return $this->_belongs->get();
 	}
+	
+	public function getStatus() {
+		return $this->_information->getStatus();
+	}
+	
+	public function getTasks(array $param = array()) {
+		return $this->_information->getTasks($param);
+	}
 }
 
-class UserInformation extends Base {
-	
-	protected function __construct(Client $client) {
-		parent::__construct($client, 'my');
-	}
+class UserInformation extends APIBase {
 	
 	public function getStatus() {
 		return $this->getRequest('status')->exec();
 	}
 	
-	public function getTasks(array $options = array()) { // デフォルトでは全ての未完了のタスク
-		return $this->getRequest('tasks')->setQuery($options)->exec();
+	public function getTasks(array $params) { // デフォルトでは全ての未完了のタスク
+		return $this->getRequest('tasks')->setQuery($params)->exec();
 	}
 }
 
-class UserContact extends Base {
-	
-	protected function __construct(Client $client) {
-		parent::__construct($client, 'contacts');
-	}
+class UserContact extends APIBase {
 	
 	public function get() {
 		return $this->getRequest()->exec();
 	}
 }
 
-class UserBelong extends Base {
-	
-	protected function __construct(Client $client) {
-		parent::__construct($client, 'rooms');
-	}
+class UserBelong extends APIBase {
 	
 	public function get() {
 		return $this->getRequest()->exec();
