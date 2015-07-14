@@ -1,5 +1,6 @@
 <?php
 namespace Skht777\Chatwork\API;
+use Skht777\Chatwork;
 use Skht777\Chatwork\Client;
 use Skht777\Util\RequestMethod as Method;
 class Base extends Client {
@@ -8,12 +9,12 @@ class Base extends Client {
 	
 	protected $_endpoint;
 	
-	public function __construct(Client $client,  $endpoint) {
+	protected function __construct(Client $client, $endpoint) {
 		parent::__construct($client->getToken());
 		$this->_endpoint = $endpoint;
 	}
 	
-	protected static function getURI(...$url) {
+	protected static function getURI(... $url) {
 		return implode('/', $url);
 	}
 	
