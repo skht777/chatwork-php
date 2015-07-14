@@ -1,6 +1,6 @@
 <?php
 namespace Skht777\Util;
-class Enum {
+class Enum implements Enumerable {
 	private $_value;
 	
 	private function __construct($value) {
