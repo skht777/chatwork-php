@@ -2,14 +2,13 @@
 namespace Skht777\Chatwork\API;
 use Skht777\Chatwork\Client;
 use Skht777\Chatwork\API\Base as APIBase;
-include_once dirname(__FILE__).'/Base.php';
 class Profile extends APIBase {
 	
 	public $information;
 	private $_contacts;
 	private $_belongs;
 	
-	public function __construct(Client $client) {
+	protected function __construct(Client $client) {
 		parent::__construct($client, 'me');
 		$this->information = new UserInformation($client);
 		$this->_contacts = new UserContact($client);
@@ -31,7 +30,7 @@ class Profile extends APIBase {
 
 class UserInformation extends Base {
 	
-	public function __construct(Client $client) {
+	protected function __construct(Client $client) {
 		parent::__construct($client, 'my');
 	}
 	
@@ -46,7 +45,7 @@ class UserInformation extends Base {
 
 class UserContact extends Base {
 	
-	public function __construct(Client $client) {
+	protected function __construct(Client $client) {
 		parent::__construct($client, 'contacts');
 	}
 	
@@ -57,7 +56,7 @@ class UserContact extends Base {
 
 class UserBelong extends Base {
 	
-	public function __construct(Client $client) {
+	protected function __construct(Client $client) {
 		parent::__construct($client, 'rooms');
 	}
 	

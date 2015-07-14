@@ -8,12 +8,12 @@ class Base extends Client {
 	
 	protected $_endpoint;
 	
-	public function __construct(Client $client,  $endpoint) {
+	public function __construct(Client $client, $endpoint) {
 		parent::__construct($client->getToken());
 		$this->_endpoint = $endpoint;
 	}
 	
-	protected static function getURI(...$url) {
+	protected static function getURI(... $url) {
 		return implode('/', $url);
 	}
 	

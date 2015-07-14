@@ -3,7 +3,6 @@ namespace Skht777\Chatwork\API;
 use Skht777\Chatwork\Client;
 use Skht777\Chatwork\API\Base as APIBase;
 use Skht777\Util\RequestMethod as Method;
-include_once dirname(__FILE__)."/Base.php";
 class Chat extends APIBase {
 	
 	public $room;
@@ -24,7 +23,7 @@ class Chat extends APIBase {
 }
 
 class ChatRoom extends APIBase {
-
+	
 	private $_id;
 	public $task;
 	public $file;
