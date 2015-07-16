@@ -10,22 +10,32 @@ class BuildRequest {
 	private $_content;
 	private $_callback;
 	
-	private function __construct($path, $method) {
+	private function __construct($path) {
 		$this->_path = $path;
-		$this->_method = $method;
+		$this->_method = Method::GET();
 		$this->_query = array();
 		$this->_header = array();
 		$this->_content = array();
 	}
 	
-	public function create($path, Method $method) {
-		return new BuildRequest($path, $method);
+	public function create($path) {
+		return new BuildRequest($path);
 	}
 	
 	public function exec() {
 		$result = file_get_contents($this->getPath(), false, stream_context_create($this->getContext()));
 		return ($this->_callback) ? call_user_func($this->_callback, $result) : $result;
 		//return array($this->getPath(), $this->getContext()); // プレフィックスチェック用
+	}
+	
+	public function setPath($path) {
+		$this->_path = $path;
+		return $this;
+	}
+	
+	public function setMethod(Method $method) {
+		$this->_method = $method;
+		return $this;
 	}
 	
 	public function addHeader($name, $value) {
