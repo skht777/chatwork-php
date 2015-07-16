@@ -1,7 +1,6 @@
 <?php
 namespace Skht777\Chatwork;
 use Skht777\Chatwork\API;
-use Skht777\Util\BuildRequest as Request;
 use Skht777\Util\RequestMethod as Method;
 class Client {
 	
@@ -21,14 +20,5 @@ class Client {
 	
 	protected function getToken() {
 		return $this->_token;
-	}
-	
-	protected function request(Method $method, $path) {
-		return Request::create($path, $method)->addHeader('X-ChatWorkToken', $this->_token)
-		->setCallback(function($result){return $this->getJson($result);});
-	}
-	
-	protected function getJson($result) {
-		return ($result) ? json_decode($result, true) : array();
 	}
 }

@@ -2,6 +2,7 @@
 namespace Skht777\Chatwork\API;
 use Skht777\Chatwork\Client;
 use Skht777\Chatwork\API\Base as APIBase;
+use Skht777\Chatwork\Parameter as Param;
 use Skht777\Util\RequestMethod as Method;
 class Chat extends APIBase {
 	
@@ -9,9 +10,9 @@ class Chat extends APIBase {
 		parent::__construct($client, 'rooms');
 	}
 	
-	public function createChatRoom($name, $adminMembers, array $options = array()) {
-		return $this->postRequest(Method::POST())
-				->setBody(array('name' => $name, 'members_admin_ids' => $adminMembers) + $options)->exec();
+	public function createChatRoom(Param\CreateRoom $param) {
+		$this->setParam($param);
+		return $this->postRequest(Method::POST());
 	}
 	
 	public function getChatRoom($roomId) {
@@ -21,66 +22,71 @@ class Chat extends APIBase {
 
 class ChatRoom extends APIBase {
 	
-	public function deleteChatRoom($action) {
-		$this->postRequest(Method::DELETE())->setBody(array('action_type' => $action))->exec();
+	public function deleteChatRoom(Param\DeleteRoom $param) {
+		$this->setParam($param);
+		$this->postRequest(Method::DELETE());
 	}
 
 	public function getInformation() {
-		return $this->getRequest()->exec();
+		return $this->getRequest();
 	}
 
-	public function updateInformation(array $options = array()) {
-		return $this->postRequest(Method::PUT())->setBody($options)->exec();
+	public function updateInformation(Param\EditRoom $param = null) {
+		$this->setParam($param);
+		return $this->postRequest(Method::PUT());
 	}
 	
 	public function getMembers() {
-		return $this->getRequest('members')->exec();
+		return $this->getRequest('members');
 	}
 	
-	public function editMembers($adminMembers, array $options = array()) {
-		return $this->postRequest(Method::PUT(), 'members')
-				->setBody(array('members_admin_ids' => $adminMembers) + $options)->exec();
+	public function editMembers(Param\EditRoomMember $param) {
+		$this->setParam($param);
+		return $this->postRequest(Method::PUT(), 'members');
 	}
 	
-	public function getMessages($force = false) {
-		return $this->getRequest('messages')->setQuery(array('force' => ($force) ? 1 : 0))->exec();
+	public function getMessages(Param\GetMessage $param = null) {
+		$this->setParam($param);
+		return $this->getRequest('messages');
 	}
 	
-	public function postMessage($body) {
-		return $this->postRequest(Method::POST(), 'messages')->setBody(array('body' => $body))->exec();
+	public function postMessage(Param\CreateMessage $param) {
+		$this->setParam($param);
+		return $this->postRequest(Method::POST(), 'messages');
 	}
 	
 	public function getMessageInformation($messageId) {
 		return (new ObjectInformation($this, self::getURI($this->_endpoint, 'messages', $messageId)))->get();
 	}
 	
-	public function getTasks($options = array()) {
-		return $this->getRequest('tasks')->setQuery($options)->exec();
+	public function getTasks(Param\GetTask $param = null) {
+		$this->setParam($param);
+		return $this->getRequest('tasks');
 	}
 	
 	public function getTaskInformation($taskId) {
 		return (new ObjectInformation($this, self::getURI($this->_endpoint, 'tasks', $taskId)))->get();
 	}
 	
-	public function createTask($body, $tos, $limit = null) {
-		$params = array('body' => $body, 'to_ids' => $tos);
-		if($limit) $params += array('limit' => $limit);
-		return $this->postRequest(Method::POST(), 'tasks')->setBody($params)->exec();
+	public function createTask(Param\CreateTask $param) {
+		$this->setParam($param);
+		return $this->postRequest(Method::POST(), 'tasks');
 	}
 	
-	public function getfiles($user = 0) {
-		$user = ($user != 0) ? array('account_id' => $user) : array();
-		return $this->getRequest('files')->setQuery($user)->exec();
+	public function getfiles(Param\GetFile $param = null) {
+		$this->setParam($param);
+		return $this->getRequest('files');
 	}
 	
-	public function getfileInformation($fileId, $create_url = true) {
-		return (new ObjectInformation($this, self::getURI($this->_endpoint, 'files', $fileId)))->get(array('create_download_url' => ($create_url) ? 1 : 0));
+	public function getfileInformation($fileId, Param\GetFileInformation $param) {
+		return (new ObjectInformation($this, self::getURI($this->_endpoint, 'files', $fileId)))->get($param);
 	}
 }
 
 class ObjectInformation extends APIBase {
 	
-	public function get($params = array()) {
-		return $this->getRequest()->setQuery($params)->exec();
+	public function get($param = null) {
+		$this->setParam($param);
+		return $this->getRequest();
 	}
 }

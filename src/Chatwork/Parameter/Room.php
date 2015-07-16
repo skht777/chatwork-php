@@ -2,16 +2,16 @@
 namespace Skht777\Chatwork\Parameter;
 class Room extends Base {
 	
-	public static function create($name, ... $ids){
-		return CreateRoom::make()->setName($name)->setMembersAdminIds(... $ids);
+	public static function create($name, ... $admins){
+		return CreateRoom::make()->setName($name)->setAdmin(... $admins);
 	}
 	
 	public static function edit(){
 		return EditRoom::make();
 	}
 	
-	public static function member(){
-		return EditRoomMember::make()->setMembersAdminIds(... $ids);
+	public static function member(... $admins){
+		return EditRoomMember::make()->setAdmin(... $admins);
 	}
 	
 	public static function delete(Enum\ActionEnum $action){
@@ -24,7 +24,7 @@ class CreateRoom extends Base {
 }
 
 class EditRoom extends Base {
-	use Name, IconPreset;
+	use Name, Description, IconPreset;
 }
 
 class EditRoomMember extends Base {

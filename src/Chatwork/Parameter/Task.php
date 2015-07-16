@@ -4,7 +4,7 @@ namespace Skht777\Chatwork\Parameter;
 class Task extends Base{
 	
 	public static function create($body, ... $ids) {
-		return CreateTask::make()->setBody($body)->setToIds(... $ids);
+		return CreateTask::make()->setBody($body)->setInCharge(... $ids);
 	}
 	
 	public static function get() {

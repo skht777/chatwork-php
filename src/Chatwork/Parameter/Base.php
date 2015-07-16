@@ -11,7 +11,7 @@ trait AccountId {
 
 trait AssignedByAccountId {
 	
-	public function setAssignedByAccountId($id) {
+	public function setAssignedBy($id) {
 		$this->setKeyValue('assigned_by_account_id', intval($id));
 		return $this;
 	}
@@ -51,7 +51,7 @@ trait Name {
 
 trait MembersAdminIds {
 	
-	public function setMembersAdminIds(... $ids) {
+	public function setAdmin(... $ids) {
 		$this->setKeyValue('members_admin_ids', $this->intList($ids));
 		return $this;
 	}
@@ -59,7 +59,7 @@ trait MembersAdminIds {
 
 trait MembersMemberIds {
 	
-	public function setMembersMemberIds(... $ids) {
+	public function setNormal(... $ids) {
 		$this->setKeyValue('members_member_ids', $this->intList($ids));
 		return $this;
 	}
@@ -67,7 +67,7 @@ trait MembersMemberIds {
 
 trait MembersReadonlyIds {
 	
-	public function setMembersReadonlyIds(... $ids) {
+	public function setReadonly(... $ids) {
 		$this->setKeyValue('members_readonly_ids', $this->intList($ids));
 		return $this;
 	}
@@ -100,7 +100,7 @@ trait Body {
 
 trait Limit {
 	
-	public function setLimit(Date $limit) {
+	public function setLimit(\DateTime $limit) {
 		$this->setKeyValue('limit', $this->timeStamp($limit));
 		return $this;
 	}
@@ -108,7 +108,7 @@ trait Limit {
 
 trait ToIds {
 	
-	public function setToIds(... $ids) {
+	public function setInCharge(... $ids) {
 		$this->setKeyValue('to_ids', $this->intList($ids));
 		return $this;
 	}
@@ -116,7 +116,7 @@ trait ToIds {
 
 trait CreateDownloadUrl {
 
-	public function setCreateDownloadUrl($isDownload) {
+	public function setDownloadable($isDownload) {
 		$this->setKeyValue('create_download_url', $this->boolean($isDownload));
 		return $this;
 	}

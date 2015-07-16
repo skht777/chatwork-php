@@ -2,6 +2,7 @@
 namespace Skht777\Chatwork\API;
 use Skht777\Chatwork\Client;
 use Skht777\Chatwork\API\Base as APIBase;
+use Skht777\Chatwork\Parameter\MyTask;
 class Profile extends APIBase {
 	
 	private $_information;
@@ -16,7 +17,7 @@ class Profile extends APIBase {
 	}
 	
 	public function getProfile() {
-		return $this->getRequest()->exec();
+		return $this->getRequest();
 	}
 	
 	public function getContacts() {
@@ -31,7 +32,7 @@ class Profile extends APIBase {
 		return $this->_information->getStatus();
 	}
 	
-	public function getTasks(array $param = array()) {
+	public function getTasks(MyTask $param = null) {
 		return $this->_information->getTasks($param);
 	}
 }
@@ -39,24 +40,25 @@ class Profile extends APIBase {
 class UserInformation extends APIBase {
 	
 	public function getStatus() {
-		return $this->getRequest('status')->exec();
+		return $this->getRequest('status');
 	}
 	
-	public function getTasks(array $params) { // デフォルトでは全ての未完了のタスク
-		return $this->getRequest('tasks')->setQuery($params)->exec();
+	public function getTasks($param) { // デフォルトでは全ての未完了のタスク
+		$this->setParam($param);
+		return $this->getRequest('tasks');
 	}
 }
 
 class UserContact extends APIBase {
 	
 	public function get() {
-		return $this->getRequest()->exec();
+		return $this->getRequest();
 	}
 }
 
 class UserBelong extends APIBase {
 	
 	public function get() {
-		return $this->getRequest()->exec();
+		return $this->getRequest();
 	}
 }
