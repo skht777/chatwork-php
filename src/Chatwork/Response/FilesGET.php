@@ -4,10 +4,10 @@ class FilesGET extends Base {
 	use ListIterator;
 	
 	protected function getObject(array $array) {
-		return new FilesIdGetRaw($array);
+		return new FilesIdGETRaw($array);
 	}
 }
 
-class FilesIdGetRaw extends Base {
+class FilesIdGETRaw extends Base {
 	use FileId, Account, MessageId, Filename, Filesize, UploadTime;
 }
